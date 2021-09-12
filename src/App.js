@@ -39,13 +39,32 @@ class App extends Component{
       this.handleCreate();
     }
   }
+  
+  handleToggle = (id) =>{
+    const {todos} = this.state;
+
+    const index = todos.findIndex(todo => todo.id === id);
+    const selected = todos[index];
+
+    const nextTodos = [...todos];
+
+    nextTodos[index] = {
+      ...selected,
+      checked: !selected.checked
+    };
+
+    this.setState({
+      todos: nextTodos
+    });
+  }
 
   render(){
     const { input, todos } = this.state;
     const {
       handleChange,
       handleCreate,
-      handleKeyPress
+      handleKeyPress,
+      handleToggle
     } = this;
 
     return(
@@ -57,7 +76,7 @@ class App extends Component{
             onCreate={handleCreate}
           />
         )}>
-          <TodoItemList todos={todos}/>
+          <TodoItemList todos={todos} onToggle={handleToggle}/>
         </TodoListTemplate>
     );
   }
